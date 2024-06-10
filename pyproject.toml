@@ -1,0 +1,121 @@
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+[project]
+authors = [
+  {email = "huy.nguyen@fastflow.ai", name = "Huy Nguyen"}
+]
+classifiers = [
+  "Environment :: Web Environment",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Framework :: Django"
+]
+description = "Fastflow CMS"
+name = "fastflow_cms"
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+version = "0.0.1"
+license.file = "LICENSE"
+
+[tool.black]
+exclude = '''
+/(
+    \.git
+ |  \.pytest_cache
+ |  \.vscode
+ |  __pycache__
+ |  .venv
+ |  build
+ |  coverage
+)/
+'''
+line-length = 88
+preview = true
+
+[tool.commitizen]
+major_version_zero = true
+name = "cz_conventional_commits"
+tag_format = "v$version"
+update_changelog_on_bump = true
+version_provider = "poetry"
+version_scheme = "pep440"
+
+[tool.coverage.run]
+omit = [
+  "headless_cms/contrib/*",
+  "headless_cms/fields/boolean_field.py",  # Just a small fix
+  "headless_cms/utils/martor_custom_upload.py",
+  "tests/*"
+]
+
+[tool.poetry]
+authors = ["Huy Nguyen <huy.nguyen@fastflow.ai>"]
+description = "Fastflow CMS"
+name = "fastflow_cms"
+readme = "README.md"
+version = "0.0.1"
+
+[tool.poetry.dependencies]
+django = "^4.2"
+django-cors-headers = "^3.14.0"
+django-debug-toolbar = "^4.0.0"
+django-environ = "^0.10.0"
+django-extensions = "^3.2.1"
+django-headless-cms = {extras = ["openai"], version = "^0.6.3"}
+djangorestframework = "^3.14.0"
+djangorestframework-api-key = "*"
+djangorestframework-camel-case = "^1.4.2"
+psycopg = "^3.1.8"
+python = ">=3.9,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+coveralls = "^3.3.1"
+factory-boy = "^3.2.1"
+faker = "^18.4.0"
+freezegun = "^1.2.2"
+mock = "^5.0.2"
+pre-commit = "^3.2.2"
+pytest-cov = "^4.0.0"
+pytest-django = "^4.5.2"
+pytest-mock = "^3.10.0"
+ruff = "^0.4.5"
+toml-sort = "^0.23.1"
+
+[tool.ruff]
+src = ["fastflow_cms"]
+
+[tool.ruff.lint]
+ignore = [
+  "E501"  # line too long, handled by black
+]
+select = [
+  "B",  # flake8-bugbear
+  "C",  # flake8-comprehensions
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "I",  # isort
+  "N",  # pep8-naming
+  "PL",  # pylint
+  "Q",  # flake8-quotes
+  "UP",  # pyupgrade
+  "W"  # pycodestyle warnings
+]
+
+[tool.ruff.lint.isort]
+section-order = ["django", "first-party", "future", "local-folder", "standard-library", "third-party"]
+
+[tool.ruff.lint.isort.sections]
+django = ["django", "rest_framework"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/config/settings/*.py" = ['F405']
+
+[tool.tomlsort]
+all = true
+in_place = true
+spaces_before_inline_comment = 2
