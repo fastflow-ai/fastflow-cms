@@ -1,4 +1,4 @@
-FROM python:3.12.4
+FROM python:3.11.9
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /code
@@ -9,7 +9,8 @@ RUN pip install -r requirements-init.txt
 
 ADD poetry.lock pyproject.toml /code/
 
-RUN poetry config virtualenvs.create false && poetry install --only main
+RUN poetry config virtualenvs.create false
+RUN poetry install --only main
 
 ENV PYTHONPATH=$PYTHONPATH:/code/fastflow_cms
 ENV DJANGO_SETTINGS_MODULE=config.settings.base
