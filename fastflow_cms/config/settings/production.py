@@ -15,25 +15,17 @@ DATABASES = {
     }
 }
 
-CLOUDRUN_SERVICE_URL = env("CLOUDRUN_SERVICE_URL", default=None)
-if CLOUDRUN_SERVICE_URL:
-    ALLOWED_HOSTS = [urlparse(CLOUDRUN_SERVICE_URL).netloc]
-    CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL]
+HOST_URLS = env.list("HOST_URLS", default=[])
+
+if HOST_URLS:
+    CSRF_TRUSTED_ORIGINS = HOST_URLS
+    ALLOWED_HOSTS = [urlparse(url).netloc for url in HOST_URLS]
     SECURE_SSL_REDIRECT = True
 else:
-    ALLOWED_HOSTS = []
     CSRF_TRUSTED_ORIGINS = []
+    ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS += env.list("CSRF_TRUSTED_ORIGINS", default=[])
-
-ALLOWED_HOSTS = (
-    [
-        "localhost",
-        "127.0.0.1",
-    ]
-    + env.list("ALLOWED_HOSTS", default=[])
-    + ALLOWED_HOSTS
-)
 
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 
