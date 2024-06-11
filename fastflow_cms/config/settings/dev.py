@@ -2,9 +2,13 @@ from .base import *  # NOQA
 
 DEBUG = True
 
-INSTALLED_APPS += (
-    "debug_toolbar",
-    "django_extensions",
+INSTALLED_APPS = (
+    # ("whitenoise.runserver_nostatic",)  # uncomment for static testing
+    + INSTALLED_APPS
+    + (
+        "debug_toolbar",
+        "django_extensions",
+    )
 )
 
 MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]

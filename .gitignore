@@ -109,4 +109,5 @@ ENV/
 # project excluded data
 exported_data
 media
+static
 .DS_Store
