@@ -3,8 +3,8 @@ from .base import *  # NOQA
 DEBUG = True
 
 INSTALLED_APPS = (
-    # ("whitenoise.runserver_nostatic",)  # uncomment for static testing
-    + INSTALLED_APPS
+    # ("whitenoise.runserver_nostatic",) +  # uncomment for static testing
+    INSTALLED_APPS
     + (
         "debug_toolbar",
         "django_extensions",
