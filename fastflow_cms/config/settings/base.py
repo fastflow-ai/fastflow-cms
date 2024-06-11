@@ -30,7 +30,7 @@ if os.path.isfile(env_file):
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("DJANGO_SECRET_KEY")
+SECRET_KEY = env.str("DJANGO_SECRET_KEY", "DEFAULT_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -81,6 +81,7 @@ INSTALLED_APPS = PRIORITY_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.gzip.GZipMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -119,9 +120,9 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 DATABASES = {
     "default": {
         "ENGINE": "psqlextra.backend",
-        "NAME": env.str("POSTGRES_DB"),
-        "USER": env.str("POSTGRES_USER"),
-        "PASSWORD": env.str("POSTGRES_PASSWORD"),
+        "NAME": env.str("POSTGRES_DB", ""),
+        "USER": env.str("POSTGRES_USER", ""),
+        "PASSWORD": env.str("POSTGRES_PASSWORD", ""),
         "HOST": env.str("POSTGRES_HOST", "localhost"),
         "PORT": 5432,
     }
@@ -219,6 +220,15 @@ STATIC_URL = "static/"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR.path("media/")
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

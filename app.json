@@ -1,0 +1,48 @@
+{
+  "name": "fastflow-cms",
+  "env": {
+    "DJANGO_SETTINGS_MODULE": {
+      "description": "Django setting file",
+      "value": "config.settings.production",
+      "required": false
+    },
+    "DJANGO_SECRET_KEY": {
+      "description": "Django secret key"
+    },
+    "POSTGRES_HOST": {
+      "description": "Postgresql host"
+    },
+    "POSTGRES_DB": {
+      "description": "Postgresql database"
+    },
+    "POSTGRES_USER": {
+      "description": "Postgresql user"
+    },
+    "POSTGRES_PASSWORD": {
+      "description": "Postgresql password"
+    },
+    "GS_BUCKET_NAME": {
+      "description": "Google cloud storage bucket"
+    },
+    "OPENAI_API_KEY": {
+      "description": "OpenAI api key"
+    }
+  },
+  "options": {
+    "allow-unauthenticated": true,
+    "memory": "512Mi",
+    "cpu": "1",
+    "port": 8000,
+    "http2": false,
+    "concurrency": 100,
+    "max-instances": 10
+  },
+  "build": {
+    "skip": false
+  },
+  "hooks": {
+    "prebuild": {
+      "commands": ["gcloud auth configure-docker"]
+    }
+  }
+}

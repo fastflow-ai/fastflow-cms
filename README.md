@@ -116,3 +116,6 @@ pytest fastflow_cms
 ```bash
 pytest --cov-report term --cov=fastflow_cms fastflow_cms
 ```
+
+## 7. Deployment
+[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run)
