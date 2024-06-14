@@ -1,0 +1,34 @@
+---
+version: 2.1
+orbs:
+  cloudrun: circleci/gcp-cloud-run@1.0.2
+jobs:
+  build_and_deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Export GSA file
+          command: |
+            echo $GSA_BASE64 | base64 -d > ~/gsa.json
+      - cloudrun/init
+      - cloudrun/build:
+          tag: gcr.io/${GOOGLE_PROJECT_ID}/fastflow-cms:${CIRCLE_SHA1}
+      - cloudrun/deploy:
+          image: gcr.io/${GOOGLE_PROJECT_ID}/fastflow-cms:${CIRCLE_SHA1}
+          platform: managed
+          region: asia-east1
+          service-name: fastflow-cms
+          unauthenticated: true
+workflows:
+  version: 2
+  build_and_deploy_to_managed_workflow:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only:
+                - main
+
+
