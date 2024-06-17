@@ -562,13 +562,13 @@ Django = ">=4.2"
 
 [[package]]
 name = "django-headless-cms"
-version = "0.7.4"
+version = "0.8.0"
 description = "A simple django-based headless CMS."
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "django_headless_cms-0.7.4-py3-none-any.whl", hash = "sha256:fe41226b2e1663ff7191bbeece17c3f37cd358a534108bb941fa7f20719fe113"},
-    {file = "django_headless_cms-0.7.4.tar.gz", hash = "sha256:66169339b164416a334b99bd879a6d084e95efc5d9cb7b9d13a769d86f86bac9"},
+    {file = "django_headless_cms-0.8.0-py3-none-any.whl", hash = "sha256:288ec11c18a93421b764030fdef1a1e392dbfd5c8171dc7328485370a31d7e05"},
+    {file = "django_headless_cms-0.8.0.tar.gz", hash = "sha256:d3ed4e7f98c8d4b51799a79afbc5c61524d049eb06d0203ea31b04a82b139462"},
 ]
 
 [package.dependencies]
@@ -2561,4 +2561,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0"
-content-hash = "3c33f5f65bbad8944bd5c5d51e252d2d5cf3126226aff90f60943250401c634d"
+content-hash = "4b2323bfcba46dfc7cc1106448968cea61016e62acf906714e057d3f68b72e3c"
