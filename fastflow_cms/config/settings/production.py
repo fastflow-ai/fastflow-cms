@@ -32,5 +32,10 @@ CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Media storage
-STORAGES["default"] = {"BACKEND": "storages.backends.gcloud.GoogleCloudStorage"}
-GS_BUCKET_NAME = env.str("GS_BUCKET_NAME")
+STORAGES["default"] = {
+    "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+    "OPTIONS": {
+        "bucket_name": env.str("GS_BUCKET_NAME"),
+        "querystring_auth": False,
+    }
+}
