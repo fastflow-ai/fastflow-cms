@@ -237,7 +237,8 @@ LANGUAGES = [
     ("tr", "Türkçe"),
     ("uk", "Українська"),
     ("vi", "Tiếng Việt"),
-    ("zh", "中文"),
+    ("zh-hans", "简体中文"),
+    ("zh-hant", "繁體中文"),
 ]
 
 TIME_ZONE = "UTC"
