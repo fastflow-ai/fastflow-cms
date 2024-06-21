@@ -3,12 +3,13 @@ version: 2.1
 orbs:
   cloudrun: circleci/gcp-cloud-run@1.0.2
   gcp-gcr: circleci/gcp-gcr@0.16.2
+  gcp-cli: circleci/gcp-cli@3.1.0
 executors:
   fastflow-executor:
     docker:
       - image: cimg/python:3.11.3
 jobs:
-  build_and_deploy:
+  deploy_cloud_run:
     docker:
       - image: cimg/base:stable
     steps:
@@ -24,6 +25,29 @@ jobs:
           region: asia-east1
           service-name: fastflow-cms
           unauthenticated: true
+  run_job:
+    environment:
+      GOOGLE_COMPUTE_REGION: asia-east1
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Setup image env"
+          command: echo 'export IMAGE="asia-east1-docker.pkg.dev/fastflow-ai/fastflow/fastflow-cms:${CIRCLE_SHA1}"' >> "$BASH_ENV"
+      - run:
+          name: Export GSA file
+          command: |
+            echo $GSA_BASE64 | base64 -d > ~/gsa.json
+      - gcp-cli/setup
+      - run:
+          name: Update job
+          command: |
+            gcloud run jobs update fastflow-cms-run-command --image $IMAGE --region $GOOGLE_COMPUTE_REGION
+      - run:
+          name: Migrate database
+          command: |
+            gcloud run jobs execute fastflow-cms-run-command --wait --args migrate --region $GOOGLE_COMPUTE_REGION
 workflows:
   version: 2
   build_and_deploy_to_managed_workflow:
@@ -40,7 +64,10 @@ workflows:
             branches:
               only:
                 - main
-      - build_and_deploy:
+      - deploy_cloud_run:
+          requires:
+            - gcp-gcr/build-and-push-image
+      - run_job:
           requires:
             - gcp-gcr/build-and-push-image
 
